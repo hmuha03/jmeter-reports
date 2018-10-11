@@ -18,7 +18,7 @@ var server = http.createServer(function(request, response) {
         case '/':  
         	
         	  var title = "Jmeter Reports";
-        	  var body = "<h1> JMeter Performance Test Reports</h1> <ul>"
+        	  var body = '<h1> JMeter Performance Test Reports</h1> <ol type="1">';
         		  
               var files = fs.readdirSync("./reports");
               
@@ -28,7 +28,7 @@ var server = http.createServer(function(request, response) {
 	        	  body = body +  '<li><a href= "/reports/' + files[index] + '/index.html">'  +files[index] + "</a></li> \n";
 	 	      }
         	  
-	          body = body + "</ul>"
+	          body = body + "</ol>"
 	          
         	  var html = buildHtml(request, title, body);
 

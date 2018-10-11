@@ -1,16 +1,46 @@
 var http = require('http');  
 var url = require('url');  
 var fs = require('fs');  
+
+
+function buildHtml(request, title, body) {
+
+	  // concatenate header string
+	  // concatenate body string
+
+	  return '<!DOCTYPE html>'
+	       + '<html><head><title>' + title + '</title></head><body>' + body + '</body></html>';
+};
+
 var server = http.createServer(function(request, response) {  
     var path = url.parse(request.url).pathname;  
     switch (path) {  
         case '/':  
-            response.writeHead(200, {  
-                'Content-Type': 'text/plain'  
-            });  
-            response.write("This is Test Message.");  
-            response.end();  
-            break;  
+        	
+        	  var title = "Jmeter Reports";
+        	  var body = "<h1> JMeter Performance Test Reports</h1> <ul>"
+        		  
+              var files = fs.readdirSync("./reports");
+              
+        	  
+	          for (var index in files) {
+	        	  body = body + "<br>"
+	        	  body = body +  '<li><a href= "/reports/' + files[index] + '/index.html">'  +files[index] + "</a></li> \n";
+	 	      }
+        	  
+	          body = body + "</ul>"
+	          
+        	  var html = buildHtml(request, title, body);
+
+	          
+        	  response.writeHead(200, {
+        	    'Content-Type': 'text/html',
+        	    'Content-Length': html.length,
+        	    'Expires': new Date().toUTCString()
+        	  });
+        	  response.end(html);
+        	  
+            break;
         default:  
             fs.readFile(__dirname + path, function(error, data) {  
                 if (error) {  

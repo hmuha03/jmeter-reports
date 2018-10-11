@@ -1,4 +1,4 @@
 ---
 applications:
 - name: jmeter-reports
-  command: node ServerExample.js
+  command: node ContentServer.js
